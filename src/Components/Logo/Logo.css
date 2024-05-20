@@ -1,0 +1,11 @@
+.TiltBox {
+    background: linear-gradient(89deg, #FF5EDF 0%, #04C8DE 100%);
+    display: inline-block;
+    height: 150px;
+    width: 150px;
+}
+
+.TiltBox img{
+    width: 98%;
+    height: 98%;
+}
