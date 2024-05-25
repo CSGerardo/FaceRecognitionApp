@@ -7,20 +7,20 @@ class Register extends React.Component {
             name: "",
             email: "",
             password: ""
-        }
+        };
     }
 
     onNameChange=(event)=>{
         this.setState({name: event.target.value})
-    }
+    };
 
     onEmailChange=(event)=>{
         this.setState({email: event.target.value})
-    }
+    };
 
     onPasswordChange=(event)=>{
         this.setState({password: event.target.value})
-    }
+    };
 
     onSubmitSignIn=()=>{
         fetch("https://still-brushlands-93531-5b4027c4ac44.herokuapp.com/register", {
@@ -38,8 +38,8 @@ class Register extends React.Component {
                 this.props.loadUser(user);
                 this.props.onRouteChange("home");
             }
-        }).catch(console.log)
-    }
+        }).catch(console.log);
+    };
 
     render(){
         return(
@@ -83,6 +83,6 @@ class Register extends React.Component {
             </article>
         );
     }
-}
+};
 
 export default Register;
