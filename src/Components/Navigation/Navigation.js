@@ -13,8 +13,8 @@ const Navigation=({onRouteChange, isSignedIn})=>{
                 <p onClick={()=>onRouteChange("signin")} className="f3 link dim light-purple underline pa3 pointer">Sign In</p>
                 <p onClick={()=>onRouteChange("register")} className="f3 link dim light-purple underline pa3 pointer">Register</p>
             </nav>
-        )
-    };
-}
+        );
+    }
+};
 
 export default Navigation;
