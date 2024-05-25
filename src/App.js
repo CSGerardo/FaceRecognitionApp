@@ -22,7 +22,7 @@ const initialState={
     entries: 0,
     joined: ""
   }
-}
+};
 
 class App extends Component{
   constructor(){
@@ -40,7 +40,7 @@ class App extends Component{
         entries: 0,
         joined: ""
       }
-    }
+    };
   }
 
   loadUser=(data)=>{
@@ -50,8 +50,8 @@ class App extends Component{
       email: data.email,
       entries: data.entries,
       joined: data.joined
-    }})
-  }
+    }});
+  };
 
   calculateFaceLocation=(clarifaiFace)=>{
     const image=document.getElementById("inputimage");
@@ -62,16 +62,16 @@ class App extends Component{
       topRow: clarifaiFace.top_row*height,
       rightCol: width-(clarifaiFace.right_col*width),
       bottomRow: height-(clarifaiFace.bottom_row*height)
-    }
-  }
+    };
+  };
 
   displayFaceBox=(box)=>{
     this.setState({box: box});
-  }
+  };
 
   onInputChange=(event)=>{
     this.setState({input: event.target.value});
-  }
+  };
 
   onButtonSubmit=()=>{
     this.setState({imageUrl: this.state.input});
@@ -99,8 +99,8 @@ class App extends Component{
               })
               .then(response=>response.json())
               .then(count=>{
-                this.setState(Object.assign(this.state.user, {entries: count}))
-              }).catch(console.log)
+                this.setState(Object.assign(this.state.user, {entries: count}));
+              }).catch(console.log);
 
               this.displayFaceBox(this.calculateFaceLocation(clarifaiFace));
           }else{
@@ -108,18 +108,19 @@ class App extends Component{
           }
         })
         .catch(error => console.log('error', error));
-  }
+  };
 
   onRouteChange=(route)=>{
     if(route==="signout"){
-      this.setState(initialState)
-      this.setState({route:"signin"})
+      this.setState(initialState);
+      this.setState({route:"signin"});
       return;
     }else if (route==="home"){
-      this.setState({isSignedIn: true})
+      this.setState({isSignedIn: true});
     }
-    this.setState({route:route})
-  }
+    this.setState({route:route});
+  };
+
   render(){
     const {imageUrl, box, route, isSignedIn, user}=this.state;
     return (
@@ -144,7 +145,7 @@ class App extends Component{
         }
       </div>
     );
-  }
-}
+  };
+};
 
 export default App;
