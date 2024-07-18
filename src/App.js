@@ -12,7 +12,7 @@ import './App.css';
 const initialState={
   input:"",
   imageUrl: "",
-  box: {},
+  boxes: [],
   route: "signin",
   isSignedIn: false,
   user: {
@@ -30,7 +30,7 @@ class App extends Component{
     this.state={
       input:"",
       imageUrl: "",
-      box: {},
+      boxes: [],
       route: "signin",
       isSignedIn: false,
       user: {
@@ -53,20 +53,23 @@ class App extends Component{
     }});
   };
 
-  calculateFaceLocation=(clarifaiFace)=>{
-    const image=document.getElementById("inputimage");
-    const width=Number(image.width);
-    const height=Number(image.height);
-    return {
-      leftCol: clarifaiFace.left_col*width,
-      topRow: clarifaiFace.top_row*height,
-      rightCol: width-(clarifaiFace.right_col*width),
-      bottomRow: height-(clarifaiFace.bottom_row*height)
-    };
+  calculateFaceLocations=(regions)=>{
+    return regions.map(face=>{
+      const clarifaiFace=face.region_info.bounding_box
+      const image=document.getElementById("inputimage");
+      const width=Number(image.width);
+      const height=Number(image.height);
+      return {
+        leftCol: clarifaiFace.left_col*width,
+        topRow: clarifaiFace.top_row*height,
+        rightCol: width-(clarifaiFace.right_col*width),
+        bottomRow: height-(clarifaiFace.bottom_row*height)
+      };
+    });
   };
 
-  displayFaceBox=(box)=>{
-    this.setState({box: box});
+  displayFaceBoxes=(boxes)=>{
+    this.setState({boxes: boxes});
   };
 
   onInputChange=(event)=>{
@@ -88,8 +91,6 @@ class App extends Component{
             const regions = result.outputs[0].data.regions;
             if(regions){
 
-              const clarifaiFace=regions[0].region_info.bounding_box;
-
               fetch("https://still-brushlands-93531-5b4027c4ac44.herokuapp.com/image", {
                 method: "put",
                 headers: {"Content-Type": "application/json"},
@@ -102,9 +103,9 @@ class App extends Component{
                 this.setState(Object.assign(this.state.user, {entries: count}));
               }).catch(console.log);
 
-              this.displayFaceBox(this.calculateFaceLocation(clarifaiFace));
+              this.displayFaceBoxes(this.calculateFaceLocations(regions));
           }else{
-            this.setState({box: {}});
+            this.setState({boxes: []});
           }
         })
         .catch(error => console.log('error', error));
@@ -122,7 +123,7 @@ class App extends Component{
   };
 
   render(){
-    const {imageUrl, box, route, isSignedIn, user}=this.state;
+    const {imageUrl, boxes, route, isSignedIn, user}=this.state;
     return (
       <div>
         <ParticlesBg num={50} type="lines" bg={{position:"absolute", zIndex:-1, top:0, left:0, height:"565px"}}/>
@@ -135,7 +136,7 @@ class App extends Component{
                 onInputChange={this.onInputChange} 
                 onButtonSubmit={this.onButtonSubmit}
               />
-              <FaceRecognition  box={box} imageUrl={imageUrl}/>
+              <FaceRecognition  boxes={boxes} imageUrl={imageUrl}/>
             </div>
           : (
                 route==="signin"
