@@ -42,7 +42,9 @@ class App extends Component{
       name: data.name,
       email: data.email,
       entries: data.entries,
-      joined: data.joined
+      joined: data.joined,
+      pet: data.pet,
+      age: data.age
     }});
   };
 
@@ -132,6 +134,7 @@ class App extends Component{
           <Profile 
             isProfileOpen={isProfileOpen} 
             toggleModal={this.toggleModal}
+            loadUser={this.loadUser}
             user={user}
           />,
           document.getElementById("modal-root")

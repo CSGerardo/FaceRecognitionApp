@@ -29,8 +29,20 @@ class Profile extends React.Component {
         }
     };
 
+    onProfileUpdate=(data)=>{
+        fetch(`https://still-brushlands-93531-5b4027c4ac44.herokuapp.com/profile/${this.props.user.id}`, {
+            method: "post",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ formInput: data })
+        }).then(resp=>{
+            this.props.toggleModal();
+            this.props.loadUser({...this.props.user, ...data});
+        }).catch(console.log);
+    };
+
     render() {
         const { user, toggleModal }=this.props;
+        const { name, age, pet }=this.state;
         return(
             <div className="profile-modal">
                 <div className="w-100 w-50-m w-25-l">
@@ -69,7 +81,9 @@ class Profile extends React.Component {
                             onChange={this.onFormChange}         
                         />     
                         <div className="mt4" style={{display: "flex", justifyContent: "space-around"}}>
-                            <button className="b pa2 grow pointer w-40 bg-gold b--white-20">  
+                            <button 
+                            onClick={()=>this.onProfileUpdate({ name, age, pet })}
+                            className="b pa2 grow pointer w-40 bg-gold b--white-20">  
                                 Save
                             </button>   
                             <button 
