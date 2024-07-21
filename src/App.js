@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { createPortal } from 'react-dom';
 import Navigation from "./Components/Navigation/Navigation.js";
 import FaceRecognition from "./Components/FaceRecognition/FaceRecognition.js";
 import Logo from "./Components/Logo/Logo.js";
@@ -7,14 +8,16 @@ import Rank from "./Components/Rank/Rank.js";
 import Signin from "./Components/Signin/Signin.js";
 import Register from "./Components/Register/Register.js";
 import ParticlesBg from 'particles-bg';
+import Profile from "./Components/Profile/Profile.js"
 import './App.css';
 
 const initialState={
   input:"",
   imageUrl: "",
   boxes: [],
-  route: "home",
-  isSignedIn: true,
+  route: "signin",
+  isSignedIn: false,
+  isProfileOpen: false,
   user: {
     id: "",
     name: "",
@@ -31,8 +34,9 @@ class App extends Component{
       input:"",
       imageUrl: "",
       boxes: [],
-      route: "home",
-      isSignedIn: true,
+      route: "signin",
+      isSignedIn: false,
+      isProfileOpen: false,
       user: {
         id: "",
         name: "",
@@ -122,12 +126,23 @@ class App extends Component{
     this.setState({route:route});
   };
 
+  toggleModal=()=>{
+    this.setState(prevState=>({
+      ...prevState,
+      isProfileOpen: !prevState.isProfileOpen
+    }));
+  };
+
   render(){
-    const {imageUrl, boxes, route, isSignedIn, user}=this.state;
+    const {imageUrl, boxes, route, isSignedIn, user, isProfileOpen}=this.state;
     return (
       <div>
         <ParticlesBg num={50} type="lines" bg={{position:"absolute", zIndex:-1, top:0, left:0, height:"565px"}}/>
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} toggleModal={this.toggleModal}/>
+        { isProfileOpen && createPortal(
+          <Profile isProfileOpen={isProfileOpen} toggleModal={this.toggleModal}/>,
+          document.getElementById("modal-root")
+        )}
         {route==="home" 
           ? <div> 
               <Logo />
