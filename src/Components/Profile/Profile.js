@@ -1,7 +1,7 @@
 import React from "react";
 import "./Profile.css";
 
-const Profile=({isProfileOpen, toggleModal})=>{
+const Profile=({isProfileOpen, toggleModal, user})=>{
     return(
         <div className="profile-modal">
             <div className="w-100 w-50-m w-25-l">
@@ -11,30 +11,30 @@ const Profile=({isProfileOpen, toggleModal})=>{
                         src="https://static.vecteezy.com/system/resources/previews/026/630/551/original/profile-icon-symbol-design-illustration-vector.jpg"
                         className="b--light-purple bw2 ba h3 w3 dib" alt="avatar"
                     />
-                    <h1>User Name</h1>
-                    <h4>Images Submitted: 5</h4>
-                    <p>Member since: January</p>
+                    <h1>{user.name}</h1>
+                    <h4>{`Images Submitted: ${user.entries}`}</h4>
+                    <p>{`Member since: ${new Date(user.joined).toLocaleDateString()}`}</p>
                     <hr/>
                     <div style={{display: "flex", justifyContent: "flex-start"}}>
                         <label className="mt2 fw6" htmlFor="user-name">Name:</label>
                     </div>
                     <input 
                         className="pa2 ba bg-mid-gray white hover-bg-mid-gray hover-white w-100 hover-black" 
-                        placeholder="User Name" type="text" name="user-name"  id="name"      
+                        placeholder={user.name} type="text" name="user-name"  id="name"      
                     />
                     <div style={{display: "flex", justifyContent: "flex-start"}}>
                         <label className="mt2 fw6" htmlFor="user-age">Age:</label>
                     </div>
                     <input 
                         className="pa2 ba bg-mid-gray white hover-bg-mid-gray hover-white w-100 hover-black" 
-                        placeholder="User Age" type="text" name="user-age"  id="age"      
+                        placeholder={user.age} type="text" name="user-age"  id="age"      
                     />
                     <div style={{display: "flex", justifyContent: "flex-start"}}>
                         <label className="mt2 fw6" htmlFor="user-name">Pet:</label>
                     </div>
                     <input 
                         className="pa2 ba bg-mid-gray white hover-bg-mid-gray hover-white w-100 hover-black" 
-                        placeholder="User Pet" type="text" name="user-pet"  id="pet"      
+                        placeholder={user.pet} type="text" name="user-pet"  id="pet"      
                     />     
                     <div className="mt4" style={{display: "flex", justifyContent: "space-around"}}>
                         <button className="b pa2 grow pointer w-40 bg-gold b--white-20">  

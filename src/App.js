@@ -23,28 +23,17 @@ const initialState={
     name: "",
     email: "",
     entries: 0,
-    joined: ""
+    joined: "",
+    pet: "",
+    age: ""
   }
 };
 
 class App extends Component{
   constructor(){
     super();
-    this.state={
-      input:"",
-      imageUrl: "",
-      boxes: [],
-      route: "signin",
-      isSignedIn: false,
-      isProfileOpen: false,
-      user: {
-        id: "",
-        name: "",
-        email: "",
-        entries: 0,
-        joined: ""
-      }
-    };
+    this.state=initialState;
+
   }
 
   loadUser=(data)=>{
@@ -140,7 +129,11 @@ class App extends Component{
         <ParticlesBg num={50} type="lines" bg={{position:"absolute", zIndex:-1, top:0, left:0, height:"565px"}}/>
         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} toggleModal={this.toggleModal}/>
         { isProfileOpen && createPortal(
-          <Profile isProfileOpen={isProfileOpen} toggleModal={this.toggleModal}/>,
+          <Profile 
+            isProfileOpen={isProfileOpen} 
+            toggleModal={this.toggleModal}
+            user={user}
+          />,
           document.getElementById("modal-root")
         )}
         {route==="home" 
