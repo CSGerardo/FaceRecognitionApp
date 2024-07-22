@@ -36,6 +36,26 @@ class App extends Component{
 
   }
 
+  componentDidMount(){
+    const token=window.localStorage.getItem("token");
+    if (token){
+      fetch("https://still-brushlands-93531-5b4027c4ac44.herokuapp.com/signin", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        }
+      })
+      .then(resp=>resp.json())
+      .then(data=>{
+        if(data && data.id){
+          console.log("Success we need to get user profile");
+        }
+      })
+      .catch(console.log);
+    }
+  };
+
   loadUser=(data)=>{
     this.setState({user: {
       id: data.id,
