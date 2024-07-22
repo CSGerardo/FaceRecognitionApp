@@ -49,7 +49,20 @@ class App extends Component{
       .then(resp=>resp.json())
       .then(data=>{
         if(data && data.id){
-          console.log("Success we need to get user profile");
+          fetch(`https://still-brushlands-93531-5b4027c4ac44.herokuapp.com/profile/${data.id}`, {
+            method: "get",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": token
+            }
+          })
+          .then(resp=>resp.json())
+          .then(user=>{
+            if(user && user.email){
+              this.loadUser(user);
+              this.onRouteChange("home");
+            }
+          })
         }
       })
       .catch(console.log);

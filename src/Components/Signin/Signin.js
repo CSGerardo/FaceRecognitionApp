@@ -35,8 +35,20 @@ class Signin extends React.Component {
         .then(data=>{
             if(data.userId && data.success==="true"){
                 this.saveAuthTokenInSession(data.token);
-                this.props.loadUser(data);
-                this.props.onRouteChange("home");
+                    fetch(`https://still-brushlands-93531-5b4027c4ac44.herokuapp.com/profile/${data.userId}`, {
+                      method: "get",
+                      headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": data.token
+                      }
+                    })
+                    .then(resp=>resp.json())
+                    .then(user=>{
+                      if(user && user.email){
+                        this.props.loadUser(user);
+                        this.props.onRouteChange("home");
+                      }
+                    }).catch(console.log);
             }
         }).catch(console.log);
     };
