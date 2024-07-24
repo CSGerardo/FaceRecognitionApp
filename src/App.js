@@ -82,22 +82,27 @@ class App extends Component{
   };
 
   calculateFaceLocations=(regions)=>{
-    return regions.map(face=>{
-      const clarifaiFace=face.region_info.bounding_box
-      const image=document.getElementById("inputimage");
-      const width=Number(image.width);
-      const height=Number(image.height);
-      return {
-        leftCol: clarifaiFace.left_col*width,
-        topRow: clarifaiFace.top_row*height,
-        rightCol: width-(clarifaiFace.right_col*width),
-        bottomRow: height-(clarifaiFace.bottom_row*height)
-      };
-    });
+    if (regions && regions[0]){
+      return regions.map(face=>{
+        const clarifaiFace=face.region_info.bounding_box
+        const image=document.getElementById("inputimage");
+        const width=Number(image.width);
+        const height=Number(image.height);
+        return {
+          leftCol: clarifaiFace.left_col*width,
+          topRow: clarifaiFace.top_row*height,
+          rightCol: width-(clarifaiFace.right_col*width),
+          bottomRow: height-(clarifaiFace.bottom_row*height)
+        };
+      });
+    }
+    return;
   };
 
   displayFaceBoxes=(boxes)=>{
-    this.setState({boxes: boxes});
+    if (boxes){
+      this.setState({boxes: boxes});
+    }
   };
 
   onInputChange=(event)=>{
@@ -109,7 +114,10 @@ class App extends Component{
 
         fetch("https://still-brushlands-93531-5b4027c4ac44.herokuapp.com/imageurl", {
           method: "post",
-          headers: {"Content-Type": "application/json"},
+          headers: {
+            "Content-Type": "application/json",
+          "Authorization": window.localStorage.getItem("token")
+        },
           body: JSON.stringify({
               input: this.state.input
           })
@@ -121,7 +129,10 @@ class App extends Component{
 
               fetch("https://still-brushlands-93531-5b4027c4ac44.herokuapp.com/image", {
                 method: "put",
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": window.localStorage.getItem("token")
+                },
                 body: JSON.stringify({
                     id: this.state.user.id
                 })

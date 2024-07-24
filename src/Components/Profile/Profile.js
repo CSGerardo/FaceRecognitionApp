@@ -32,11 +32,16 @@ class Profile extends React.Component {
     onProfileUpdate=(data)=>{
         fetch(`https://still-brushlands-93531-5b4027c4ac44.herokuapp.com/profile/${this.props.user.id}`, {
             method: "post",
-            headers: {"Content-Type": "application/json"},
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": window.localStorage.getItem("token")
+            },
             body: JSON.stringify({ formInput: data })
         }).then(resp=>{
-            this.props.toggleModal();
-            this.props.loadUser({...this.props.user, ...data});
+            if (resp.status===200 || resp.status===304){
+                this.props.toggleModal();
+                this.props.loadUser({...this.props.user, ...data});
+            }
         }).catch(console.log);
     };
 
@@ -49,7 +54,7 @@ class Profile extends React.Component {
                     <article className=" bg-black br3 ba light-purple mv4 mw6 center">
                     <main className="pa4 light-purple w-80">
                         <img
-                            src="https://static.vecteezy.com/system/resources/previews/026/630/551/original/profile-icon-symbol-design-illustration-vector.jpg"
+                            src={require("./boy-front-color.png")}
                             className="b--light-purple bw2 ba h3 w3 dib" alt="avatar"
                         />
                         <h1>{this.state.name}</h1>
