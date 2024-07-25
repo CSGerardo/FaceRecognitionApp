@@ -25,7 +25,7 @@ class ProfileIcon extends React.Component {
         window.localStorage.removeItem("token")
         console.log(token);
         if (token){
-          fetch("http://localhost:3001/signout", {
+          fetch("https://still-brushlands-93531-5b4027c4ac44.herokuapp.com/signout", {
             method: "post",
             headers: {
               "Content-Type": "application/json",
