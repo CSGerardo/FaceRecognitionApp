@@ -23,7 +23,6 @@ class ProfileIcon extends React.Component {
     onSubmitSignOut=()=>{
         const token=window.localStorage.getItem("token");
         window.localStorage.removeItem("token")
-        console.log(token);
         if (token){
           fetch("https://still-brushlands-93531-5b4027c4ac44.herokuapp.com/signout", {
             method: "post",
